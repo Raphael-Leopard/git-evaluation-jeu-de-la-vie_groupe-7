@@ -5,6 +5,7 @@ import os
 from lib import write_grid
 
 
+
 # ---------------------------------------------------------------------------
 # Bryan - Les Arguments du programme
 # ---------------------------------------------------------------------------
@@ -71,6 +72,37 @@ def parse_args(argv=None):
 # ---------------------------------------------------------------------------
 # Bryan - fin
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Lanja-compter-voisins
+# ---------------------------------------------------------------------------
+
+def compter_voisins(grille, l, c):
+    """Compte les voisines vivantes de la cellule (i,j)."""
+
+    nb_lig = len(grille) # Nombre de ligne de la grille
+    nb_col = len(grille[0]) # Nombre de cologne de la grille
+    nb_voisins=0 # Nombre de voisines vivantes
+
+    # On parcrous les voisins autour de la cellule (l,c)
+    for lv in range (l-1, l+2):
+        for cv in range (c-1, c+2): 
+            # La voisine doit être DANS la grille (sinon elle est considérée morte)
+            if 0 <= lv < nb_lig and 0 <= cv < nb_col :
+                if grille[lv][cv]==1:
+                    nb_voisins +=1
+
+    # Le carré 3x3 contient aussi la cellule (l, c) elle-même :
+    # si elle est vivante, on la retire du total
+    if grille[l][c] == 1:
+        nb_voisins -= 1
+
+    return nb_voisins
+
+# ---------------------------------------------------------------------------
+# Lanja-Fin
+# ---------------------------------------------------------------------------
+
 
 def main():
 
