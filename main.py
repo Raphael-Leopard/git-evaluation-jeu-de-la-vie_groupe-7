@@ -4,13 +4,11 @@ import os
 
 from lib import write_grid
 
-
-
 # ---------------------------------------------------------------------------
 # Bryan - Les Arguments du programme
 # ---------------------------------------------------------------------------
 
-#Fonction convertissant un entier en valeur (renvoi une erreur si ce n'est pas un entier)
+#Fonction convertissant une valeur en entier (renvoie une erreur si ce n'est pas un entier)
 def convertir_entier(value):
     try:
         return int(value)
