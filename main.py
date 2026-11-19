@@ -10,8 +10,8 @@ from lib import write_grid
 # Bryan - Les Arguments du programme
 # ---------------------------------------------------------------------------
 
-#Fonction permettant de tester un int
-def _to_int(value):
+#Fonction convertissant un entier en valeur (renvoi une erreur si ce n'est pas un entier)
+def convertir_entier(value):
     try:
         return int(value)
     except ValueError:
@@ -19,9 +19,9 @@ def _to_int(value):
 
 
 #Fonction testant si un entier est strictement positif ( > 0 )
-def strictly_positive_int(value):
+def entier_strictement_positif(value):
 
-    number = _to_int(value)
+    number = convertir_entier(value)
 
     if number <= 0:
         raise argparse.ArgumentTypeError(
@@ -30,9 +30,9 @@ def strictly_positive_int(value):
     return number
 
 #Fonction testant si un entier n'est pas négatif ( >= 0)
-def non_negative_int(value):
+def entier_non_negatif(value):
 
-    number = _to_int(value)
+    number = convertir_entier(value)
     if number < 0:
         raise argparse.ArgumentTypeError(
             f"'{value}' doit être un entier positif ou nul"
@@ -40,19 +40,19 @@ def non_negative_int(value):
     return number
 
 
-def parse_args(argv=None):
+def lire_argument(argv=None):
 
     parser = argparse.ArgumentParser(description="Jeu de la vie de Conway")
     parser.add_argument(
-        "-n", "--nb_cells", type=strictly_positive_int, default=10,
+        "-n", "--nb_cells", type=entier_strictement_positif, default=10,
         help="nombre de cellules par côté pour une grille aléatoire (défaut : 10)",
     )
     parser.add_argument(
-        "-m", "--max_iterations", type=non_negative_int, default=20,
+        "-m", "--max_iterations", type=entier_non_negatif, default=20,
         help="numéro de la dernière itération à calculer (défaut : 20)",
     )
     parser.add_argument(
-        "-s", "--seed", type=_to_int, default=42,
+        "-s", "--seed", type=convertir_entier, default=42,
         help="graine du générateur aléatoire (défaut : 42)",
     )
     parser.add_argument(
@@ -106,7 +106,7 @@ def compter_voisins(grille, l, c):
 
 def main():
 
-    args = parse_args() #parse_args permet de récupérer les arguments
+    args = lire_argument() #lire_argument permet de récupérer les arguments
 
     rng = random.Random(args.seed)
     matrix = [
