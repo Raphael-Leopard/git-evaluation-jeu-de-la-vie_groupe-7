@@ -1,6 +1,7 @@
 import random
 import argparse
 import os
+import sys
 
 from lib import write_grid
 
@@ -70,7 +71,6 @@ def lire_argument(argv=None):
 # ---------------------------------------------------------------------------
 # Bryan - fin
 # ---------------------------------------------------------------------------
-
 # ---------------------------------------------------------------------------
 # Lanja-compter-voisins
 # ---------------------------------------------------------------------------
@@ -100,23 +100,94 @@ def compter_voisins(grille, l, c):
 # ---------------------------------------------------------------------------
 # Lanja-Fin
 # ---------------------------------------------------------------------------
+#----------------------------------------------------------------------------
+#Maxence : Geston des entrée/STDIN
+#----------------------------------------------------------------------------
 
 
-def main():
+def conversion_grille(entree):
+    #convertis en matrice la grille donner sur STDIN, 
+    # en verifiant si les arguments sont correcte
+    lignes = entree.splitlines()
 
-    args = lire_argument() #lire_argument permet de récupérer les arguments
+    if not lignes:
+        raise ValueError("Grille vide")
+
+    try:
+        taille = int(lignes[0])
+    except ValueError:
+        raise ValueError("Taille invalide")
+
+    if taille <= 0:
+        raise ValueError("La taille doit être positive")
+
+    if len(lignes) != taille + 1:
+        raise ValueError("Nombre de lignes incorrect")
+
+    grille = []
+
+    for i in range(taille):
+        new = []
+        valeurs = lignes[i + 1].split()
+
+        if len(valeurs) != taille:
+            raise ValueError("Nombre de colonnes incorrect")
+
+        for j in range(taille):
+            try:
+                cellule = int(valeurs[j])
+            except ValueError:
+                raise ValueError("Cellule non entière")
+
+            if cellule not in (0, 1):
+                raise ValueError("Une cellule doit valoir 0 ou 1")
+
+            new.append(cellule)
+
+        grille.append(new)
+
+    return grille
+
+def obtenir_grille_initiale(args): 
+    #reprise du prof pour générer une grille seulement si aucune grille 
+    #n' as étais donnée en entrée
+
+    entree = ""
+
+    if not sys.stdin.isatty():
+        entree = sys.stdin.read()
+
+    if entree:
+        return conversion_grille(entree)
 
     rng = random.Random(args.seed)
-    matrix = [
+
+    return [
         [rng.choice([0, 1]) for _ in range(args.nb_cells)]
         for _ in range(args.nb_cells)
     ]
+#----------------------------------------------------------------------------
+#Maxence : Fin
+#----------------------------------------------------------------------------
+
+def main():
+    args = lire_argument() #permet de recuperer les arguments
+
+    try:
+        matrix = obtenir_grille_initiale(args)
+    except ValueError as erreur:
+        print(f"Erreur : {erreur}", file=sys.stderr)
+        sys.exit(1)
 
     os.makedirs(args.output_directory, exist_ok=True)
-    iter = 0
-    filename = os.path.join(args.output_directory, f"grid_{iter:04d}.png")
-    write_grid(matrix=matrix, filename=filename)
 
+    iteration = 0
+    filename = os.path.join(
+        args.output_directory,
+        f"grid_{iteration:04d}.png"
+    )
+
+    write_grid(matrix=matrix, filename=filename)
 
 if __name__ == "__main__":
     main()
