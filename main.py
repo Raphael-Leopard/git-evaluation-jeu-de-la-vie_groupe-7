@@ -75,27 +75,37 @@ def lire_argument(argv=None):
 # Lanja-compter-voisins
 # ---------------------------------------------------------------------------
 
-def compter_voisins(grille, l, c):
-    """Compte les voisines vivantes de la cellule (i,j)."""
+def compter_voisins(grille, l, c, periodique=False):
+    """Compte les voisines vivantes de la cellule (l, c)."""
 
-    nb_lig = len(grille) # Nombre de ligne de la grille
-    nb_col = len(grille[0]) # Nombre de cologne de la grille
-    nb_voisins=0 # Nombre de voisines vivantes
+    nb_lig = len(grille) # Nombre de lignes de la grille
+    nb_col = len(grille[0]) # Nombre de colonnes de la grille
+    nb_voisins = 0 # Nombre de voisines vivantes
 
-    # On parcrous les voisins autour de la cellule (l,c)
-    for lv in range (l-1, l+2):
-        for cv in range (c-1, c+2): 
-            # La voisine doit être DANS la grille (sinon elle est considérée morte)
-            if 0 <= lv < nb_lig and 0 <= cv < nb_col :
-                if grille[lv][cv]==1:
-                    nb_voisins +=1
+    # On parcourt les voisines autour de la cellule (l, c)
+    for lv in range(l - 1, l + 2):
+        for cv in range(c - 1, c + 2):
+            # La cellule (l, c) elle-même n'est pas une voisine
+            if lv == l and cv == c:
+                continue
 
-    # Le carré 3x3 contient aussi la cellule (l, c) elle-même :
-    # si elle est vivante, on la retire du total
-    if grille[l][c] == 1:
-        nb_voisins -= 1
+            if periodique:
+                # Mode périodique : ce qui sort d'un côté revient de l'autre
+                # Exemple avec 3 lignes : -1 % 3 = 2 et 3 % 3 = 0
+                lv_test = lv % nb_lig
+                cv_test = cv % nb_col
+            else:
+                # Mode fixe : en dehors de la grille, la voisine est considérée morte
+                if not (0 <= lv < nb_lig and 0 <= cv < nb_col):
+                    continue
+                lv_test = lv
+                cv_test = cv
+
+            if grille[lv_test][cv_test] == 1:
+                nb_voisins += 1
 
     return nb_voisins
+
 
 def generation_suivante(monde):
     # Taille d'un côté de la grille (elle est carrée)
