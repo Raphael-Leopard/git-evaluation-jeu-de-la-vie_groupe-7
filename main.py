@@ -97,6 +97,36 @@ def compter_voisins(grille, l, c):
 
     return nb_voisins
 
+def generation_suivante(monde):
+    # Taille d'un côté de la grille (elle est carrée)
+    n = len(monde)
+
+    # Nouvelle grille vide, pour ne pas écraser l'ancienne pendant le calcul
+    monde_suivant = [[0] * n for _ in range(n)]
+
+    # Étape A : calcul de la nouvelle génération dans monde_suivant
+    for l in range(n):
+        for c in range(n):
+            nb_voisins = compter_voisins(monde, l, c)
+
+            if monde[l][c] == 1:
+                # Règle 1 : une cellule vivante reste vivante si elle a 2 ou 3 voisins
+                if nb_voisins == 2 or nb_voisins == 3:
+                    monde_suivant[l][c] = 1
+                else:
+                    monde_suivant[l][c] = 0  # Mort par sous-population ou surpopulation
+            else:
+                # Règle 2 : une cellule morte naît si elle a exactement 3 voisins
+                if nb_voisins == 3:
+                    monde_suivant[l][c] = 1
+                else:
+                    monde_suivant[l][c] = 0
+
+    # Étape B : copie de la nouvelle grille dans la grille d'origine
+    for l in range(n):
+        for c in range(n):
+            monde[l][c] = monde_suivant[l][c]
+
 # ---------------------------------------------------------------------------
 # Lanja-Fin
 # ---------------------------------------------------------------------------
