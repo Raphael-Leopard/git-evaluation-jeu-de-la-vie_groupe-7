@@ -200,6 +200,36 @@ def obtenir_grille_initiale(args):
 #Maxence : Fin
 #----------------------------------------------------------------------------
 
+
+# --------------------------------------------------
+# Amal : Gestion des sorties
+# --------------------------------------------------
+
+# Afficher la grille en texte
+def afficher_texte(matrix, iteration):
+
+    print("iteration:", iteration)
+
+    for ligne in matrix:
+        for cellule in ligne:
+            print(cellule, end=" ")
+        print()
+
+
+# Enregistrer une image de la grille
+def enregistrer_image(matrix, iteration, dossier):
+
+    nom_fichier = os.path.join(
+        dossier,
+        "grid_" + str(iteration).zfill(4) + ".png"
+    )
+
+    write_grid(matrix=matrix, filename=nom_fichier)
+
+# --------------------------------------------------
+# Amal : Fin
+# --------------------------------------------------
+
 def main():
     args = lire_argument() #permet de recuperer les arguments
 
@@ -209,15 +239,28 @@ def main():
         print(f"Erreur : {erreur}", file=sys.stderr)
         sys.exit(1)
 
+    
     os.makedirs(args.output_directory, exist_ok=True)
 
-    iteration = 0
-    filename = os.path.join(
-        args.output_directory,
-        f"grid_{iteration:04d}.png"
-    )
+    # Parcourir toutes les générations
+    for iteration in range(args.max_iterations + 1):
 
-    write_grid(matrix=matrix, filename=filename)
+        # Afficher la grille en texte
+        if args.output_type == "text":
+            if iteration == args.max_iterations:
+                afficher_texte(matrix, iteration)
+
+        # Enregistrer les images
+        else:
+            enregistrer_image(
+                matrix,
+                iteration,
+                args.output_directory
+            )
+
+        # Calculer la génération suivante
+        if iteration < args.max_iterations:
+            generation_suivante(matrix)
 
 if __name__ == "__main__":
     main()
