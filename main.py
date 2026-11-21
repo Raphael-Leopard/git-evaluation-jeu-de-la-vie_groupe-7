@@ -200,6 +200,36 @@ def obtenir_grille_initiale(args):
 #Maxence : Fin
 #----------------------------------------------------------------------------
 
+
+# --------------------------------------------------
+# Amal : Gestion des sorties
+# --------------------------------------------------
+
+# Afficher la grille en texte
+def afficher_texte(matrix, iteration):
+
+    print("iteration:", iteration)
+
+    for ligne in matrix:
+        for cellule in ligne:
+            print(cellule, end=" ")
+        print()
+
+
+# Enregistrer une image de la grille
+def enregistrer_image(matrix, iteration, dossier):
+
+    nom_fichier = os.path.join(
+        dossier,
+        "grid_" + str(iteration).zfill(4) + ".png"
+    )
+
+    write_grid(matrix=matrix, filename=nom_fichier)
+
+# --------------------------------------------------
+# Amal : Fin
+# --------------------------------------------------
+
 def main():
     args = lire_argument() #permet de recuperer les arguments
 
