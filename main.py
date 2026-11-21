@@ -222,9 +222,7 @@ def afficher_texte(matrix, iteration):
     print("iteration:", iteration)
 
     for ligne in matrix:
-        for cellule in ligne:
-            print(cellule, end=" ")
-        print()
+        print(" ".join(str(cellule) for cellule in ligne))
 
 
 # Enregistrer une image de la grille
@@ -271,7 +269,7 @@ def main():
 
         # Calculer la génération suivante
         if iteration < args.max_iterations:
-            generation_suivante(matrix)
+            generation_suivante(matrix, args.periodic)
 
 if __name__ == "__main__":
     main()
