@@ -107,7 +107,7 @@ def compter_voisins(grille, l, c, periodique=False):
     return nb_voisins
 
 
-def generation_suivante(monde):
+def generation_suivante(monde,periodique=False):
     # Taille d'un côté de la grille (elle est carrée)
     n = len(monde)
 
@@ -117,7 +117,8 @@ def generation_suivante(monde):
     # Étape A : calcul de la nouvelle génération dans monde_suivant
     for l in range(n):
         for c in range(n):
-            nb_voisins = compter_voisins(monde, l, c)
+            #On transmet le mode (fixe ou periodique) au comptage des voisines
+            nb_voisins = compter_voisins(monde, l, c, periodique)
 
             if monde[l][c] == 1:
                 # Règle 1 : une cellule vivante reste vivante si elle a 2 ou 3 voisins
