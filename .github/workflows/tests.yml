@@ -1,0 +1,35 @@
+
+name: Tests du Jeu de la vie
+
+# Lancer les tests lors des push et des Pull Requests
+on:
+  push:
+  pull_request:
+
+# Autorisation de lecture du depot
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Verifier le programme
+    runs-on: ubuntu-latest
+
+    steps:
+      # Recuperer le contenu du depot
+      - name: Recuperer le code
+        uses: actions/checkout@v6
+
+      # Installer Python 3
+      - name: Configurer Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      # Verifier les arguments du programme
+      - name: Tester les arguments
+        run: sh check_script_options.sh
+
+      # Verifier les generations du Jeu de la vie
+      - name: Tester les generations
+        run: sh check_tests.sh
