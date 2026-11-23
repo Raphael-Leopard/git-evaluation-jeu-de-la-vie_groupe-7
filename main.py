@@ -248,7 +248,7 @@ def main():
         print(f"Erreur : {erreur}", file=sys.stderr)
         sys.exit(1)
 
-    
+
     os.makedirs(args.output_directory, exist_ok=True)
 
     # Parcourir toutes les générations
@@ -270,6 +270,11 @@ def main():
         # Calculer la génération suivante
         if iteration < args.max_iterations:
             generation_suivante(matrix, args.periodic)
+    if args.output_type == "image":
+        print(
+            f"Generation of {args.max_iterations + 1} "
+            f"images in directory {args.output_directory}"
+        )
 
 if __name__ == "__main__":
     main()
