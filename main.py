@@ -72,7 +72,8 @@ def lire_argument(argv=None):
 # Bryan - fin
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-# Lanja-compter-voisins
+# Lanja-Debut : compter-voisins et generation_suivante
+# Raphael-Debut : conditions périodiques
 # ---------------------------------------------------------------------------
 
 def compter_voisins(grille, l, c, periodique=False):
@@ -140,6 +141,7 @@ def generation_suivante(monde,periodique=False):
 
 # ---------------------------------------------------------------------------
 # Lanja-Fin
+# Raphael-Fin
 # ---------------------------------------------------------------------------
 #----------------------------------------------------------------------------
 #Maxence : Geston des entrée/STDIN
