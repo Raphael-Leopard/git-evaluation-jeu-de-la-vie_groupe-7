@@ -229,7 +229,8 @@ sh check_tests.sh
 
 Le workflow signale un échec si l'un des deux scripts se termine avec un code de sortie différent de `0`.
 
-Exécution réussie consultable dans l'onglet **Actions** : **À COMPLÉTER** (lien vers l'exécution réussie)
+Exécution réussie des tests :
+[Consulter le résultat GitHub Actions](https://github.com/Raphael-Leopard/git-evaluation-jeu-de-la-vie_groupe-7/actions/runs/45197383175)
 
 ## Auteurs
 
