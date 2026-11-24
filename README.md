@@ -9,6 +9,7 @@ Implémentation en Python du [jeu de la vie](https://fr.wikipedia.org/wiki/Jeu_d
 - [Arguments](#arguments)
 - [Vidéos](#vidéos)
 - [Tests](#tests)
+- [Intégration continue (bonus)](#intégration-continue-bonus)
 - [Auteurs](#auteurs)
 - [Liens utiles](#liens-utiles)
 
@@ -161,7 +162,14 @@ Précisions :
 
 Lien YouTube : [https://www.youtube.com/watch?v=JUZvCt0cNXA](https://www.youtube.com/watch?v=JUZvCt0cNXA)
 
-Graine utilisée : `4200` *(à vérifier : indiquer la graine effectivement utilisée)*
+Paramètres utilisés :
+
+- Grille : 50 × 50 cellules
+- Graine aléatoire : `4200`
+- Nombre d'itérations : 2000
+- Nombre de générations affichées : 2001
+- Conditions aux limites : fixes
+- Fréquence : 20 images par seconde
 
 Commandes exactes de génération des images, puis de la vidéo, depuis la racine du dépôt et dans un terminal sans pipe ni redirection de l'entrée standard :
 
@@ -179,7 +187,7 @@ Cette commande produit 2001 images (`grid_0000.png` à `grid_2000.png`) avec des
 
 ### Historique du dépôt avec Gource
 
-Lien YouTube : **À COMPLÉTER** (vidéo publique)
+Lien YouTube : [https://www.youtube.com/watch?v=4wjk3q6Ex7w](https://www.youtube.com/watch?v=4wjk3q6Ex7w)
 
 Commande de génération :
 
@@ -204,6 +212,24 @@ Deux scripts fournis vérifient le programme. Lancez-les depuis la racine du dé
 ```
 
 Si le droit d'exécution n'est pas disponible, utilisez `sh check_script_options.sh` et `sh check_tests.sh`. Chaque script se termine par `Nb test success: N / N` lorsque tous les tests passent.
+
+## Intégration continue (bonus)
+
+Un workflow GitHub Actions teste automatiquement `main.py`. Il est versionné dans le dossier `.github/workflows/` et se déclenche :
+
+- à chaque envoi de commits (`push`) ;
+- à chaque *Pull Request* (`pull_request`).
+
+Il récupère le contenu du dépôt, dispose de Python 3 dans un environnement Linux, puis exécute depuis la racine du dépôt :
+
+```bash
+sh check_script_options.sh
+sh check_tests.sh
+```
+
+Le workflow signale un échec si l'un des deux scripts se termine avec un code de sortie différent de `0`.
+
+Exécution réussie consultable dans l'onglet **Actions** : **À COMPLÉTER** (lien vers l'exécution réussie)
 
 ## Auteurs
 
